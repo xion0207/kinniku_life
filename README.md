@@ -1,5 +1,4 @@
-# サイト名
-きんにくLIFE！
+# きんにくLIFE！
 
 ## サイト概要
 
@@ -28,9 +27,11 @@
 ## 設計書
 - 実装機能リスト URL: https://docs.google.com/spreadsheets/d/1NP9g0sWhLQItFmSv-_ASceew1TUR61lHTmOQo-l4sMA/edit?usp=sharing
 - WBS URL: https://docs.google.com/spreadsheets/d/1PFJxjtIEztZqSSfiF7UvaiwYTlhzo5rezLgsi9g_hKE/edit?usp=sharing
+- テーブル定義書 URL: https://goodnotes.com/shares/#aHR0cHM6Ly93d3cuaWNsb3VkLmNvbS9zaGFyZS8wNWRSVnBNMW5QNUpFZkJsYW9PZUNFRTFR
 
 ## 開発環境
 - 使用検討中です
 
 ## 使用素材
 - 使用検討中です
+- font: KMBfontUKanaNA･NB･O twitterアカウント(@snowy_tgn)

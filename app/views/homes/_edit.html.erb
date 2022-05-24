@@ -1,0 +1,5 @@
+<%= form_with model: user, url: user_registration_path, method: :patch do |f| %>
+<h4>身長</h4>
+  <%= f.text_field :stature %>
+<%= f.submit '保存' %>
+<% end %>
