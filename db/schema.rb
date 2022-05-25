@@ -13,15 +13,19 @@
 ActiveRecord::Schema.define(version: 2022_05_23_093256) do
 
   create_table "body_compositions", force: :cascade do |t|
-    t.string "body_weight"
-    t.string "body_fat_percentage"
+    t.float "body_weight"
+    t.float "body_fat_percentage"
     t.string "date"
+    t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "graphs", force: :cascade do |t|
     t.string "date"
+    t.integer "user_id"
+    t.integer "body_composition_id"
+    t.integer "training_record_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
