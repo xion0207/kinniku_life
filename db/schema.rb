@@ -31,18 +31,22 @@ ActiveRecord::Schema.define(version: 2022_05_23_093256) do
   end
 
   create_table "muscle_parts", force: :cascade do |t|
-    t.string "muscle_part_name"
+    t.string "name"
   end
 
   create_table "training_records", force: :cascade do |t|
     t.string "training_event"
     t.string "training_note"
+    t.integer "muscle_part_id"
+    t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "training_urls", force: :cascade do |t|
-    t.string "training_url"
+    t.string "url"
+    t.integer "muscle_part_id"
+    t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

@@ -1,2 +1,32 @@
-<h1>MuscleParts#show</h1>
-<p>Find me in app/views/muscle_parts/show.html.erb</p>
+<%= @muscle_part.name %>を鍛える。
+
+     <% @training_urls.each do |training_url| %>
+       <li class="list">
+       <div class="youtube_url">
+         <iframe class="video" src="https://www.youtube.com/embed/<%= training_url.url.last(11)%>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+         <%= link_to "削除", muscle_part_path(training_url.id), method: :delete, "data-confirm" => "本当に削除しますか？" %>
+       </div>
+     </li>
+     <% end %>
+     <%= paginate @training_urls %>
+     ↓Youtubeの動画を登録する
+     <%= form_with model: @training_url, url: muscle_parts_path do |f| %>
+       <%= f.text_field :url, :placeholder => "https://youtu.be/vx2u5uUu3DE" %>
+       <%= f.hidden_field :user_id, :value => current_user.id %>
+       <%= f.hidden_field :muscle_part_id, :value => @muscle_part.id %>
+       <%= f.submit '追加' %>
+     <% end %>
+     <% @training_records.each do |training_record| %>
+     <%= training_record.created_at.to_s(:datetime_jp) %>
+     <%= training_record.training_event %>
+     <%= training_record.training_note %>
+     <%= link_to "削除", destroy_record_path(training_record.id), method: :delete, "data-confirm" => "本当に削除しますか？" %><br>
+
+     <% end %>
+     <%= form_with model: @training_record, url: create_record_path do |f| %>
+       <%= f.text_field :training_event, :placeholder => "ベンチプレス" %>
+       <%= f.text_field :training_note, :placeholder => "100kg 3回　3セット" %>
+       <%= f.hidden_field :user_id, :value => current_user.id %>
+       <%= f.hidden_field :muscle_part_id, :value => @muscle_part.id %>
+       <%= f.submit '保存' %>
+     <% end %>

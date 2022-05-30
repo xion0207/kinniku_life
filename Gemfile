@@ -58,3 +58,5 @@ gem 'devise'
 gem 'pry-byebug', group: :development
 gem 'chart-js-rails', '~> 0.1.4'
 gem 'chartkick'
+gem 'jquery-rails'
+gem 'kaminari','~> 1.2.1'

@@ -1,5 +1,6 @@
-<h1>Homes#top</h1>
-<p>Find me in app/views/homes/top.html.erb</p>
+<%= link_to muscle_parts_path do %>
+筋肉へ
+<% end %>
 <p>ようこそ
 <%= link_to edit_user_path(@user) do %>
 <% if @user.name == nil %>
@@ -24,11 +25,49 @@
 <%= body_composition.body_fat_weight %>
 <%= body_composition.lean_body_weight %>
 <% end %>
-<%= area_chart @body_compositions.chart_date, xtitle: "日付", ytitle: "重さ(Kg)", width: "1000px", height: "600px" %>
+<%= area_chart @body_compositions.chart_date,colors: ["#b00", "#666"], empty: "体重を記録するとここにグラフが表示されます", stacked: true, dataset: {borderWidth: 10}, points: false, id: "users-chart", min: BodyComposition.minimum(:body_weight) - 2, max: BodyComposition.maximum(:body_weight) + 2, xtitle: "日付", ytitle: "重さ(Kg)", width: "1000px", height: "600px" %>
+
 <p id="notice"><%= notice %></p>
 
 <h1>Products</h1>
 
-<%= line_chart @chart %>
-
 <%= link_to 'New Product', root_path %>
+<canvas id="myChart"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+var ctx = document.getElementById('myChart');
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+</script>

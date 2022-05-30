@@ -1,2 +1,14 @@
-<h1>MuscleParts#index</h1>
-<p>Find me in app/views/muscle_parts/index.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="col-md-10">
+        <%= image_tag 'zenshin_syomen.png', class:"img-fluid", :alt => '全身筋肉画像の読み込みに失敗しました。' %>
+    </div>
+    <div class="col-md-2">
+      <% @muscle_parts.each do |muscle_part| %>
+      <%= link_to muscle_part_path(muscle_part.id) do %>
+      <%= muscle_part.name %>
+      <% end %><br>
+      <% end %>
+    </div>
+  </div>
+</div>
