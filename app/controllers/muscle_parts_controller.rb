@@ -31,6 +31,15 @@ class MusclePartsController < ApplicationController
    end
   end
 
+  def edit
+    @training_record = TrainingRecord.find(params[:id])
+  end
+  def update
+    training_record = TrainingRecord.find(params[:id])
+    training_record.update(training_record_params)
+    redirect_to muscle_part_path(training_record.muscle_part_id)
+  end
+
   def destroy
     training_url = TrainingUrl.find(params[:id])
     training_url.destroy  # データ（レコード）を削除
