@@ -3,7 +3,9 @@ class HomesController < ApplicationController
     @user = current_user
     @edit = current_user
     @body_composition = BodyComposition.new
-    @body_compositions = BodyComposition.all
+    @body_compositions = BodyComposition.where(user_id: [current_user]).order(date: "ASC")
+    @body_composition_now = BodyComposition.where(user_id: [current_user]).order(date: :desc).limit(1)
+    @training_records = TrainingRecord.where(user_id: [current_user])
   end
 
   def create
