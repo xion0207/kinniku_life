@@ -2,36 +2,83 @@
 <html>
   <head>
     <title>KinnikuLife</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script src="https://kit.fontawesome.com/9f877dc7a0.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
   </head>
 
   <body>
-  <header>
-    <% if user_signed_in? %>
-      <li>
-        <%= link_to "ホーム", root_path %>
-      </li>
-      <li>
-        <%= link_to "ログアウト", destroy_user_session_path, method: :delete %>
-      </li>
-    <% else %>
-      <li>
-        <%= link_to "ホーム", root_path %>
-      </li>
-      <li>
-        <%= link_to "新規登録", new_user_registration_path %>
-      </li>
-      <li>
-        <%= link_to "ログイン", new_user_session_path %>
-      </li>
-    <% end %>
-  </header>
+    <header class="shadow-sm">
+      <nav class="navbar navbar-expand-lg">
+        <div class="container">
+          <img class="navbar-brand p-1" href="/" src="/assets/logo.png" alt="">
+          <% if current_page?(muscle_part_path(1)) %>
+                <h4 style="color:white;">肩を鍛える。</h4>
+              <% elsif current_page?(muscle_part_path(2)) %>
+                <h4 style="color:white;">胸を鍛える。</h4>
+              <% elsif current_page?(muscle_part_path(3)) %>
+                <h4 style="color:white;">腕を鍛える。</h4>
+              <% elsif current_page?(muscle_part_path(4)) %>
+                <h4 style="color:white;">背中を鍛える。</h4>
+              <% elsif current_page?(muscle_part_path(5)) %>
+                <h4 style="color:white;">腹を鍛える。</h4>
+              <% elsif current_page?(muscle_part_path(6)) %>
+                <h4 style="color:white;">脚を鍛える。</h4>
+            <% end %>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"
+                        style="color:#e5f2ff; border-color:#0099cc; border: 4mm ridge rgba(150, 200, 255, .6); solid; background-color:black;">
+            <span class="navbar-toggler-icon fas fa-bars"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav md-auto">
+            <% if user_signed_in? %>
+            <li class="nav-item form-inline">
+              <%= link_to root_path do %><i class="fas fa-user m-2 fa-2x" style="size:40px; color:#99ea47;"></i><% end %>
+              <h4>
+              <%= link_to 'ホーム', root_path, class:'m-2', style:"color:#99ea47;" %>
+              </h4>
+            </li>
+            <li class="nav-item form-inline">
+              <%= link_to muscle_parts_path do %><i class="fas fa-fire-alt m-2 fa-2x" style="color:#ff952b;"></i><% end %>
+              <h4>
+              <%= link_to '肩', muscle_part_path(1), class:'m-2', style:"color:#fff2e5;" %>
+              <%= link_to '胸', muscle_part_path(2), class:'m-2', style:"color:#fff2e5;" %>
+              <%= link_to '腕', muscle_part_path(3), class:'m-2', style:"color:#fff2e5;" %>
+              <%= link_to '背', muscle_part_path(4), class:'m-2', style:"color:#fff2e5;" %>
+              <%= link_to '腹', muscle_part_path(5), class:'m-2', style:"color:#fff2e5;" %>
+              <%= link_to '脚', muscle_part_path(6), class:'m-2', style:"color:#fff2e5;" %>
+              </h4>
+            </li>
+            <li class="nav-item form-inline">
+              <%= link_to destroy_user_session_path, method: :delete do %><i class="fas fa-sign-out-alt fa-2x ml-2" style="color:white;"></i><% end %>
+              <h4>
+              <%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class:'m-2', style:"color:white;" %>
+              </h4>
+            </li>
+            <% else %>
+            <li class="nav-item">
+              <%= link_to "新規登録", new_user_registration_path, class: 'nav-link text-dark' %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "ログイン", new_user_session_path, class: 'nav-link text-dark' %>
+            </li>
+            <% end %>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <br>
+    <main>
   <%= yield %>
+  </main>
 </body>
 </html>

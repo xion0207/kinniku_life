@@ -1,6 +1,13 @@
 <div class="container">
   <div class="row">
     <div class="col-md-10">
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js"></script>
+      <div style="width:100%">
+  <canvas id="canvas"></canvas>
+</div>
+
+<!-- グラフ更新ボタン -->
+<button type="button" id="btn">グラフを更新</button>
         <%= image_tag 'zenshin_syomen.png', class:"img-fluid", :alt => '全身筋肉画像の読み込みに失敗しました。' %>
     </div>
     <div class="col-md-2">
