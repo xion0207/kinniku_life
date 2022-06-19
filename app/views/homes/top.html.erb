@@ -1,129 +1,134 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-6" style="font-size:16px;">
+<div class="col-md-6" style="font-size:16px;">
+  <div class="panel-group">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" href="#collapse1" style="font-size:18px; color:gray;">
+            <i class="fas fa-angle-double-down"></i>
+            <% if @user.name == nil %>
+              <%= @user.email %>
+            <% else %>
+              <%= @user.name %>
+            <% end %>さんのからだ
+          </a>
+        </h4>
+      </div>
+    <div id="collapse1" class="panel-collapse collapse">
+      <% @body_composition_now.each do |body_composition| %>
+        <%= pie_chart ({ "除脂肪体重(kg)": body_composition.lean_body_weight, "脂肪(kg)": body_composition.body_fat_weight }), colors: ["#ea4747", "#f7d8ba"] %>
+        身長  <%= link_to edit_user_path(@user) do %><%= @user.stature %><% end %>cm<br>
+        体重  <%= body_composition.body_weight %>Kg<br>
+        体脂肪率 <%= body_composition.body_fat_percentage %>%<br>
+        <% if current_user.stature == nil %>
+          <%= link_to edit_user_path(@user) do %>
+            身長を記入してffmiを計算しよう
+          <% end %>
+        <% else %>
+          ffmi=<%= body_composition.ffmi_status %>
+          <table calss='table'>
+            <thead class='table-dark'>
+              <tr>
+                <th scope="col">FFMIの目安</th>
+                <th scope="col">男</th>
+                <th scope="col">女</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="table-info">
+                <th>平均以下の筋肉量</th>
+                <td>18</td>
+                <td>13</td>
+              </tr>
+              <tr class="table-success">
+                <th>標準の筋肉量</th>
+                  <td>20</td>
+                  <td>15</td>
+              </tr>
+              <tr class="table-warning">
+                <th>明らかに筋肉質</th>
+                <td>22</td>
+                <td>17</td>
+              </tr>
+              <tr class="table-warning">
+                <th>(理論的限界値)</th>
+                <td>25</td>
+                <td>22</td>
+              </tr>
+              <tr class="table-danger">
+                <th>ステロイドユーザーを疑われる</th>
+                <td>25以上</td>
+                <td>22以上</td>
+              </tr>
+            </tbody>
+          </table>
+          <p>参考→<%= link_to 'http://exercisetoolkit.com/tag/fat-free-mass-index/' %></p>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
 
-<div class="panel-group">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a data-toggle="collapse" href="#collapse1" style="font-size:18px; color:gray;">
-                <i class="fas fa-angle-double-down"></i>
-                <% if @user.name == nil %>
-                <%= @user.email %>
-                <% else %>
-                <%= @user.name %>
-                <% end %>さんのからだ
-              </a>
-            </h4>
-          </div>
-          <div id="collapse1" class="panel-collapse collapse">
-<% @body_composition_now.each do |body_composition| %>
-<%= pie_chart ({ "除脂肪体重(kg)": body_composition.lean_body_weight, "脂肪(kg)": body_composition.body_fat_weight }), colors: ["#ea4747", "#f7d8ba"] %>
 
-身長　<%= link_to edit_user_path(@user) do %><%= @user.stature %><% end %>cm<br>
-体重　<%= body_composition.body_weight %>Kg<br>
-体脂肪率 <%= body_composition.body_fat_percentage %>%<br>
-<% if current_user.stature == nil %>
-<%= link_to edit_user_path(@user) do %>
-身長を記入してffmiを計算しよう
-<% end %>
-<% else %>
-ffmi=<%= body_composition.ffmi_status %>
-<table calss='table'>
-  <thead class='table-dark'>
-    <tr>
-      <th scope="col">FFMIの目安</th>
-      <th scope="col">男</th>
-      <th scope="col">女</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="table-info">
-      <th>平均以下の筋肉量</th>
-      <td>18</td>
-      <td>13</td>
-    </tr>
-    <tr class="table-success">
-      <th>標準の筋肉量</th>
-      <td>20</td>
-      <td>15</td>
-    </tr>
-    <tr class="table-warning">
-      <th>明らかに筋肉質</th>
-      <td>22</td>
-      <td>17</td>
-    </tr>
-    <tr>
-    <tr class="table-warning">
-      <th>理論的限界値</th>
-      <td>25</td>
-      <td>22</td>
-    </tr>
-    <tr class="table-danger">
-      <th>ステロイドユーザーを疑われる</th>
-      <td>25以上</td>
-      <td>22以上</td>
-    </tr>
-  </tbody>
-</table>
-<p>参考→<%= link_to 'http://exercisetoolkit.com/tag/fat-free-mass-index/' %></p>
-<% end %>
-<% end %>
-</div>
-</div>
-</div>
-</div>
 <div class="col-md-6">
   <div class="panel-group">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a data-toggle="collapse" href="#collapse2" style="font-size:18px; color:gray;">
-                <i class="fas fa-angle-double-down"></i>
-                トレーニング記録
-              </a>
-            </h4>
-          </div>
-          <div id="collapse2" class="panel-collapse collapse">
-<% @training_records.each do |training_record| %>
-     <%= training_record.created_at.to_s(:datetime_jp) %>
-     <%= training_record.training_event.name %>
-     <%= training_record.training_note %><br>
-     <% end %>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" href="#collapse2" style="font-size:18px; color:gray;">
+            <i class="fas fa-angle-double-down"></i>
+            トレーニング記録
+          </a>
+        </h4>
+      </div>
+      <div id="collapse2" class="panel-collapse collapse">
+        <div style="position: relative; overflow-x: scroll; height:300px;">
+          <% @training_records.each do |training_record| %>
+            <%= training_record.created_at.strftime('%Y/%m/%d') %>
+            <%= training_record.training_event.name %>
+            <%= training_record.training_note %>
+            <br>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-</div>
-</div>
-</div>
+
+
 <div class="col-md-12" style="text-align:center;">
-<% if @body_composition.errors.any? %>
-  <%= @body_composition.errors.count %>件のエラーが発生しました
-  <ul>
-    <% @body_composition.errors.full_messages.each do |message| %>
-      <li><%= message %></li>
+  <% if @body_composition.errors.any? %>
+    <%= @body_composition.errors.count %>件のエラーが発生しました
+    <ul>
+      <% @body_composition.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+  <% if @body_compositions.find_by(date: Date.today) %>
+  今日の体重は記録済みです
+  <% else %>
+    <%= form_with model: @body_composition, url: homes_path do |f| %>
+    <h4>今日の体重を記録しよう</h4>
+      <%= f.text_field :body_weight, :placeholder => "66.6", size: '5' %>kg
+      <%= f.text_field :body_fat_percentage, :placeholder => "12.3", size: '4' %>%
+      <%= f.hidden_field :user_id, :value => @user.id %>
+      <%= f.hidden_field :date, :value => Date.current %>
+      <%= f.submit '保存', class:'btn btn-success' %>
     <% end %>
-  </ul>
-<% end %>
-<% if @body_compositions.find_by(date: Date.today) %>
-<% else %>
-<%= form_with model: @body_composition, url: homes_path do |f| %>
-<h4>今日の体重を記録しよう</h4>
-  <%= f.text_field :body_weight, :placeholder => "66.6", size: '5' %>kg
-  <%= f.text_field :body_fat_percentage, :placeholder => "12.3", size: '4' %>%
-  <%= f.hidden_field :user_id, :value => @user.id %>
-  <%= f.hidden_field :date, :value => Date.current %>
-<%= f.submit '保存', class:'btn btn-success' %>
-<% end %><br>
-<% end %>
+    <br>
+  <% end %>
 </div>
+
+
 <div class="col-md-12">
   <div class="chartWrapper" style="position: relative; overflow-y: scroll;">
-  <div class="chartContainer" style="width:1000px;">
-<canvas id="myChart" width="400px" height="120px"></canvas>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</div>
-</div>
-<script>
-
+    <div class="chartContainer" style="width:1200px;">
+      <canvas id="myChart" width="400px" height="120px"></canvas>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </div>
+  </div>
+  <script>
 var ctx = document.getElementById('myChart');
 var myChart = new Chart(ctx, {
     type: 'line',
@@ -172,6 +177,7 @@ var myChart = new Chart(ctx, {
 
         scales: {
             x: {
+
               grid:{
                 display:false
               }
@@ -190,33 +196,31 @@ ticks: {
     }
 
 });
-
-</script>
+  </script>
 </div>
-<div class="panel-group">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              <a data-toggle="collapse" href="#collapse3" style="color:gray;"><i class="fas fa-angle-double-down"></i></a>
-            </h4>
-          </div>
-          <div id="collapse3" class="panel-collapse collapse">
-<% @body_compositions_desc.each do |body_composition| %>
-<div class="form-inline">
-<%= form_with model: BodyComposition.find(body_composition.id), method: :patch , url: home_update_path(body_composition.id) do |f| %>
-<%= f.hidden_field :id, :value => body_composition.id %>
-  <%= f.text_field :date, :placeholder => "例 => 2022-04-01", size: '10' %>
-     <%= f.text_field :body_weight, :placeholder => "例 => 67.8",size: '4' %>kg
-  <%= f.text_field :body_fat_percentage, :placeholder => "例 => 12.3", size: '3' %>%
 
-     <%= f.submit '更新', class:'btn btn-success mx-1'%>
-     <% end %>
-     <%= link_to "削除", home_path(body_composition.id), method: :delete, "data-confirm" => "本当に削除しますか？", class:'btn btn-danger' %>
-     </div><br>
-  <% end %>
-  </div>
-  </div>
-  </div>
 
+<div class="col-md-12 panel-group">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" href="#collapse3" style="color:gray;"><i class="fas fa-angle-double-down"></i></a>
+      </h4>
+    </div>
+    <div id="collapse3" class="panel-collapse collapse">
+      <% @body_compositions_desc.each do |body_composition| %>
+        <div class="form-inline">
+          <%= form_with model: BodyComposition.find(body_composition.id), method: :patch , url: home_update_path(body_composition.id) do |f| %>
+            <%= f.hidden_field :id, :value => body_composition.id %>
+            <%= f.text_field :date, :placeholder => "例 => 2022-04-01", size: '10' %>
+            <%= f.text_field :body_weight, :placeholder => "例 => 67.8",size: '4' %>kg
+            <%= f.text_field :body_fat_percentage, :placeholder => "例 => 12.3", size: '3' %>%
+            <%= f.submit '更新', class:'btn btn-success mx-1'%>
+          <% end %>
+          <%= link_to "削除", home_path(body_composition.id), method: :delete, "data-confirm" => "本当に削除しますか？", class:'btn btn-danger' %>
+        </div>
+        <br>
+      <% end %>
+      </div>
     </div>
   </div>

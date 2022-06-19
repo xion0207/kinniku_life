@@ -18,7 +18,7 @@ $(document).ready(function () {
     // 自動再生時のスライド切替間隔(ミリ秒)
     autoPlayDuration : 3000,
     // キーボードの矢印キーによるスライド送りの設定(trueで有効)
-    keyboardOnAlways : true,
+    keyboardOnAlways : false,
     // 一枚目のスライド表示時に戻る矢印を表示するかどうか(falseで非表示)
     hidePrevious : false
   });

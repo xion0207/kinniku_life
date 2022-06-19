@@ -8,4 +8,5 @@ class User < ApplicationRecord
   has_many :body_compositions, dependent: :destroy
   has_many :training_records, dependent: :destroy
   has_many :training_urls, dependent: :destroy
+  validates :name, length: { maximum: 30 }
 end

@@ -1,13 +1,14 @@
-<h1>編集画面</h1>
-
+<div class="col-md-12 text-center">
 <%= form_with model: @training_record, url: muscle_part_path  do |f| %>
 
   <h4>種目</h4>
-  <%= f.text_field :training_event %>
-
+<br>
+       <%= f.select :training_event_id, @training_events.map{ |training_event| [training_event.name, training_event.id, {"data-age": training_event.name}] } %>
+<br><br>
   <h4>メモ</h4>
   <%= f.text_area :training_note %>
-
-  <%= f.submit '保存' %>
+<br><br>
+  <%= f.submit '保存', class:"btn btn-success" %>
 
 <% end %>
+</div>

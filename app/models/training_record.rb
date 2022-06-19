@@ -3,4 +3,5 @@ class TrainingRecord < ApplicationRecord
     belongs_to :muscle_part
     belongs_to :training_event
     has_many :graphs
+    validates :training_note, presence: true
 end

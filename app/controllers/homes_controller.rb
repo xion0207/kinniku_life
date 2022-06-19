@@ -1,4 +1,6 @@
 class HomesController < ApplicationController
+  before_action :authenticate_user!
+
   def top
     @user = current_user
     @edit = current_user
@@ -6,7 +8,7 @@ class HomesController < ApplicationController
     @body_compositions = BodyComposition.where(user_id: [current_user]).order(date: "ASC").limit(90)
     @body_composition_now = BodyComposition.where(user_id: [current_user]).order(date: :desc).limit(1)
     @body_compositions_desc = BodyComposition.where(user_id: [current_user]).order(date: "DESC")
-    @training_records = TrainingRecord.where(user_id: [current_user])
+    @training_records = TrainingRecord.where(user_id: [current_user]).order(created_at: "DESC")
   end
 
   def create
@@ -14,7 +16,7 @@ class HomesController < ApplicationController
     if body_composition.save
       redirect_to root_path
     else
-      render
+	    redirect_to root_path
     end
   end
 

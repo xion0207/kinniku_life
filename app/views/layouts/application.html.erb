@@ -14,11 +14,30 @@
 
   </head>
 
-  <body>
+  <body style="display: flex;
+  flex-flow: column;
+  min-height: 100vh;">
     <header class="shadow-sm">
-      <nav class="navbar navbar-expand-lg">
-        <div class="container">
-          <img class="navbar-brand p-1" href="/" src="/assets/logo.png" alt="">
+      <nav class="navbar navbar-expand-lg ">
+        <div class="container" style="float: left;">
+          <img class="navbar-brand p-1 col-2 col-sm-1" href="/" src="/assets/logo.png" style="width:64px;" alt="">
+
+
+          <div class="col-6 col-sm-6">
+            <% if current_page?new_user_session_path %>
+            <h1 style="color:white;">きんにくLIFE!</h1>
+            <% elsif current_page?new_user_password_path %>
+            <h1 style="color:white;">きんにくLIFE!</h1>
+            <% elsif current_page?new_user_registration_path %>
+            <h2 style="color:white;">きんにくLIFE!</h2>
+            <% end %>
+          <% if current_page?root_path %>
+          <p style="color:white;">ようこそ<% if @user.name == nil %>
+                <%= @user.email %>
+                <% else %>
+                <%= @user.name %>
+                <% end %>さん</p>
+          <% end %>
           <% if current_page?(muscle_part_path(1)) %>
                 <h4 style="color:white;">肩を鍛える。</h4>
               <% elsif current_page?(muscle_part_path(2)) %>
@@ -32,9 +51,10 @@
               <% elsif current_page?(muscle_part_path(6)) %>
                 <h4 style="color:white;">脚を鍛える。</h4>
             <% end %>
+            </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
                         aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"
-                        style="color:#e5f2ff; border-color:#0099cc; border: 4mm ridge rgba(150, 200, 255, .6); solid; background-color:black;">
+                        style="color:#e5f2ff; border-color:#0099cc; border: 4mm ridge gray; solid; background-color:black;">
             <span class="navbar-toggler-icon fas fa-bars"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
@@ -47,7 +67,7 @@
               </h4>
             </li>
             <li class="nav-item form-inline">
-              <%= link_to muscle_parts_path do %><i class="fas fa-fire-alt m-2 fa-2x" style="color:#ff952b;"></i><% end %>
+              <i class="fas fa-fire-alt m-2 fa-2x" style="color:#ff952b;"></i>
               <h4>
               <%= link_to '肩', muscle_part_path(1), class:'m-2', style:"color:#fff2e5;" %>
               <%= link_to '胸', muscle_part_path(2), class:'m-2', style:"color:#fff2e5;" %>
@@ -64,21 +84,49 @@
               </h4>
             </li>
             <% else %>
-            <li class="nav-item">
-              <%= link_to "新規登録", new_user_registration_path, class: 'nav-link text-dark' %>
-            </li>
-            <li class="nav-item">
-              <%= link_to "ログイン", new_user_session_path, class: 'nav-link text-dark' %>
-            </li>
+              <% if current_page?new_user_registration_path %>
+              <% else %>
+                <li class="nav-item">
+                  <%= link_to new_user_registration_path, class: 'nav-link text-dark' do %><i class="fas fa-user-plus fa-2x ml-2" style="color:white;"></i><% end %>
+                  <h4>
+                    <%= link_to '新規登録', new_user_registration_path, class:'m-2', style:"color:white;" %>
+                  </h4>
+                </li>
+              <% end %>
+              <% if current_page?new_user_session_path %>
+              <% else %>
+              <li class="nav-item">
+                <%= link_to new_user_session_path, class: 'nav-link text-dark' do %><i class="fas fa-sign-in-alt fa-2x ml-2" style="color:white;"></i><% end %>
+                <h4>
+                  <%= link_to 'ログイン', new_user_session_path, class:'m-2', style:"color:white;" %>
+                </h4>
+              </li>
+              <% end %>
             <% end %>
             </ul>
           </div>
         </div>
       </nav>
     </header>
+    <% if current_page?new_user_registration_path %>
+    <% else %>
     <br>
-    <main>
-  <%= yield %>
+    <% end %>
+    <main style="flex: 1;" <% if current_page?new_user_registration_path %>class="background_image img-fluid" style="height:100%;"<% end %>>
+      <div class="container-fluid">
+        <div class="row">
+          <%= yield %>
+        </div>
+      </div>
   </main>
+<% if current_page?new_user_registration_path %>
+    <% else %>
+    <br>
+    <% end %>
+  <footer class="shadow-sm" style="bottom:0;">
+    <nav class="navbar navbar-expand-lg">
+      <img class="navbar-brand" href="/" src="/assets/logo_ura.png" style="width:32px;" alt="">
+    </nav>
+  </footer>
 </body>
 </html>

@@ -32,7 +32,7 @@
 }
 
 #container{
-  height: 500px;
+  height: 400px;
 }
 
 
@@ -57,7 +57,29 @@ body {
 .navbar {
   background-color: black;
 }
-
+.video {
+     height: 100%;
+     width: 100%;
+}
+.youtube_url {
+     width: 100%;
+}
+@media (min-width: 500px) {
+   .youtube_url {
+     height: 300px;
+   }
+   #container{
+  height: 600px;
+}
+}
+@media (min-width: 800px) {
+   .youtube_url {
+     height: 500px;
+   }
+   #container{
+  height: 800px;
+}
+}
 
 /*.canvas-container {*/
 /*    position: relative;*/

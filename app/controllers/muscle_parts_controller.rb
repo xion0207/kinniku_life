@@ -1,4 +1,6 @@
 class MusclePartsController < ApplicationController
+  before_action :authenticate_user!
+
   def index
     @muscle_parts = MusclePart.all
     @body_compositions = BodyComposition.where(user_id: [current_user]).order(date: "ASC")
@@ -6,17 +8,23 @@ class MusclePartsController < ApplicationController
 
   def show
     @muscle_part = MusclePart.find(params[:id])
-    @training_urls = (TrainingUrl.where(user_id: [current_user]).where(muscle_part_id: [@muscle_part])).page(params[:page])
+    @training_urls = (TrainingUrl.where(user_id: [current_user]).where(muscle_part_id: [@muscle_part])).page(params[:page]).per(1)
     @training_url = TrainingUrl.new
     @training_record = TrainingRecord.new
-    @training_records = TrainingRecord.where(user_id: [current_user]).where(muscle_part_id: [@muscle_part])
+    @training_records = TrainingRecord.where(user_id: [current_user]).where(muscle_part_id: [@muscle_part]).order(created_at: "DESC")
+    @training_records.each do |key, training_records|
+
+      @training_records.each do |training_record|
+
+      end
+    end
     @training_event = TrainingEvent.new
     @training_events = TrainingEvent.where(user_id: [current_user]).where(muscle_part_id: [@muscle_part])
   end
 
   def create_record
    @training_record = TrainingRecord.new(training_record_params)
-   if @training_record.save!
+   if @training_record.save
      redirect_to muscle_part_path(@training_record.muscle_part_id)
    else
      redirect_to muscle_part_path(@training_record.muscle_part_id)
@@ -35,7 +43,7 @@ class MusclePartsController < ApplicationController
   end
   def create_event
    @training_event = TrainingEvent.new(training_event_params)
-   if @training_event.save!
+   if @training_event.save
      redirect_to muscle_part_path(@training_event.muscle_part_id)
    else
      redirect_to muscle_part_path(@training_event.muscle_part_id)
@@ -44,6 +52,7 @@ class MusclePartsController < ApplicationController
 
   def edit
     @training_record = TrainingRecord.find(params[:id])
+    @training_events = TrainingEvent.where(user_id: [current_user])
   end
   def update
     training_record = TrainingRecord.find(params[:id])

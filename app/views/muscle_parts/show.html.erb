@@ -1,12 +1,8 @@
-<div class="container">
-  <div class="row">
     <div class='col-md-12'>
-      <%= link_to muscle_parts_path do %>全身へ<% end %>
       <div class="panel-group">
         <div class="panel panel-default">
           <div class="panel-heading">
             <h4 class="panel-title">
-
               <a data-toggle="collapse" href="#collapse1" style="font-size:18px; color:gray;"><i class="fas fa-angle-double-down"></i>種目例</a>
             </h4>
           </div>
@@ -29,89 +25,115 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6">
-       <% @training_urls.each do |training_url| %>
-       <li class="list">
-       <div class="youtube_url">
-         <iframe class="video" src="https://www.youtube.com/embed/<%= training_url.url.last(11)%>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-         <%= link_to "削除", muscle_part_path(training_url.id), method: :delete, "data-confirm" => "本当に削除しますか？" %>
-       </div>
-     </li>
-     <% end %>
-     <%= paginate @training_urls %>
-     ↓Youtubeの動画を登録する
-     <%= form_with model: @training_url, url: muscle_parts_path do |f| %>
-       <%= f.text_field :url, :placeholder => "https://youtu.be/vx2u5uUu3DE" %>
-       <%= f.hidden_field :user_id, :value => current_user.id %>
-       <%= f.hidden_field :muscle_part_id, :value => @muscle_part.id %>
-       <%= f.submit '追加' %>
-     <% end %>
-     </div>
-     <div class='col-md-5'>
-     <h5>種目一覧<a data-toggle="collapse" href="#collapse2" style="font-size:18px; color:green;"><i class="fas fa-plus"></i></a>
-      <a data-toggle="collapse" href="#collapse3" style="font-size:18px; color:red;"><i class="fas fa-minus"></i></a></h5>
-
-      <div class="panel-group">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-
-            </h4>
-          </div>
-          <div id="collapse2" class="panel-collapse collapse">
-              <%= form_with model: @training_event, url: create_event_path do |f| %>
-       <%= f.text_field :name, :placeholder => "ベンチプレス" %>
-       <%= f.hidden_field :user_id, :value => current_user.id %>
-       <%= f.hidden_field :muscle_part_id, :value => @muscle_part.id %>
-       <%= f.submit '保存' %>
-     <% end %>
-              </div>
-              </div>
-              </div>
-              <div class="panel-group">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-
-            </h4>
-          </div>
-          <div id="collapse3" class="panel-collapse collapse">
-              <% @training_events.each do |training_event| %>
-               <%= link_to destroy_event_path(training_event.id), method: :delete, "data-confirm" => "本当に削除しますか？この種目名で登録した記録も削除されます。" do %>
-               <%= training_event.name %>
-              <% end %>
-              <% end %>
 
 
-              </div>
-              </div>
-              </div>
-              <br>
-       <% @training_events.each do |training_event| %>
-       <button type="button" class="btn btn-outline-secondary rounded-pill" style="color:black;" >
-       <%= link_to muscle_part_path(@muscle_part), style:"color:black;" do %>
-       <%= training_event.name %>
-       </button>
-       <% end %>
-       <% end %>
-       <br>
-
-
-     <% @training_records.each do |training_record| %>
-     <%= training_record.created_at.to_s(:datetime_jp) %>
-     <%= training_record.training_event.name %>
-     <%= training_record.training_note %>
-     <%= link_to "編集", edit_muscle_part_path(training_record.id) %>
-     <%= link_to "削除", destroy_record_path(training_record.id), method: :delete, "data-confirm" => "本当に削除しますか？" %><br>
-     <% end %>
-
-     <%= form_with model: @training_record, url: create_record_path do |f| %>
-       <%= f.select :training_event_id, @training_events.map{ |training_event| [training_event.name, training_event.id, {"data-age": training_event.name}] } %>
-       <%= f.text_field :training_note, :placeholder => "100kg 3回　3セット" %>
-       <%= f.hidden_field :user_id, :value => current_user.id %>
-       <%= f.hidden_field :muscle_part_id, :value => @muscle_part.id %>
-       <%= f.submit '保存' %>
-     <% end %>
+    <div class='col-md-5'>
+      <a data-toggle="collapse" href="#collapse5" style="font-size:18px; color:gray;">
+        <i class="fas fa-angle-double-down"></i>筋トレ記録
+      </a>
+      <div id="collapse5" class="panel-collapse collapse">
+        <div style="position: relative; overflow-x: scroll; height:300px;">
+          <% @training_records.each do |training_record| %>
+            <%= training_record.created_at.strftime('%Y/%m/%d') %>
+            <%= training_record.training_event.name %>
+            <%= training_record.training_note %>
+            <%= link_to "編集", edit_muscle_part_path(training_record.id) %>
+            <%= link_to destroy_record_path(training_record.id), method: :delete, "data-confirm" => "本当に削除しますか？" do %>
+              <i class="fas fa-minus" style="font-size:18px; color:orangered;"></i><br>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+      <% if @training_events.take == nil %>
+      <% else %>
+        <div style="margin:20px 0px;">
+          <h4>筋トレを記録する</h4>
+          <%= form_with model: @training_record, url: create_record_path do |f| %>
+            <%= f.select :training_event_id, @training_events.map{ |training_event| [training_event.name, training_event.id, {"data-age": training_event.name}] } %>
+            <%= f.text_field :training_note, :placeholder => "100kg 3回　3セット", size: "40x100"  %>
+            <%= f.hidden_field :user_id, :value => current_user.id %>
+            <%= f.hidden_field :muscle_part_id, :value => @muscle_part.id %>
+            <%= f.submit '保存', class:'btn btn-success' %>
+          <% end %>
+        </div>
+      <% end %>
     </div>
-  </div>
-</div>
+
+
+    <div class='col-md-7'>
+      <div class="container-fluid">
+        <% if @training_events.take == nil %>
+        <% else %>
+          <h5>登録種目
+            <a data-toggle="collapse" href="#collapse2" style="font-size:18px; color:green;"><i class="fas fa-plus"></i></a>
+            <a data-toggle="collapse" href="#collapse3" style="font-size:18px; color:orangered;"><i class="fas fa-minus"></i></a>
+          </h5>
+        <% end %>
+        <div id="collapse2" class="panel-collapse collapse">
+          <%= form_with model: @training_event, url: create_event_path do |f| %>
+            <%= f.text_field :name, :placeholder => "ベンチプレス" %>
+            <%= f.hidden_field :user_id, :value => current_user.id %>
+            <%= f.hidden_field :muscle_part_id, :value => @muscle_part.id %>
+            <%= f.submit '保存', class:'btn btn-success' %>
+          <% end %>
+        </div>
+        <div class="border p-3">
+          <% if @training_events.take == nil %>
+            <p>自分の種目を登録しよう！
+              <a data-toggle="collapse" href="#collapse2" style="font-size:18px; color:green;"><i class="fas fa-plus"></i></a>
+            </p>
+          <% else %>
+            <% @training_events.each do |training_event| %>
+              <button type="button" class="btn btn-outline-secondary rounded-pill" style="color:black; font-size:12px;" >
+                <%= training_event.name %>
+              </button>
+              <p id="collapse3" class="panel-collapse collapse">
+                <%= link_to "削除", destroy_event_path(training_event.id), method: :delete, "data-confirm" => "本当に削除しますか？この種目名で登録した記録も削除されます。", class:"btn btn-danger" %>
+              </p>
+            <% end %>
+          <% end %>
+          <p id="collapse3" class="panel-collapse collapse">
+            <a data-toggle="collapse" href="#collapse3" style="font-size:18px; color:black;"><i class="fas fa-chevron-up"></i></a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-md-12">
+      <h4>お気に入り動画</h4>
+      <% if @training_urls.take == nil %>
+        <p>youtubeでお気に入りの動画を登録してフォームを覚えよう
+          <a data-toggle="collapse" href="#collapse4" style="font-size:18px; color:green;"><i class="fas fa-plus"></i></a>
+        </p>
+        <div id="collapse4" class="panel-collapse collapse">
+          <%= form_with model: @training_url, url: muscle_parts_path do |f| %>
+            <%= f.text_field :url, :placeholder => "https://youtu.be/vx2u5uUu3DE" %>
+            <%= f.hidden_field :user_id, :value => current_user.id %>
+            <%= f.hidden_field :muscle_part_id, :value => @muscle_part.id %>
+            <%= f.submit '追加' %>
+          <% end %>
+        </div>
+      <% else %>
+        <% @training_urls.each do |training_url| %>
+          <div class="youtube_url">
+            <iframe class="video" src="https://www.youtube.com/embed/<%= training_url.url.last(11)%>" frameborder="0"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+                    style="color:#e5f2ff; border-color:#0099cc; border: 4mm ridge darkorange; solid; background-color:black;"></iframe>
+          </div>
+          <%= paginate @training_urls %>
+          <div id="collapse4" class="panel-collapse collapse">
+            <%= form_with model: @training_url, url: muscle_parts_path do |f| %>
+              <%= f.text_field :url, :placeholder => "https://youtu.be/vx2u5uUu3DE" %>
+              <%= f.hidden_field :user_id, :value => current_user.id %>
+              <%= f.hidden_field :muscle_part_id, :value => @muscle_part.id %>
+              <%= f.submit '追加', class:'btn btn-primary' %>
+            <% end %>
+          </div>
+          <a data-toggle="collapse" href="#collapse4" style="color:green;"><i class="fas fa-plus fa-2x"></i></a>
+          <%= link_to muscle_part_path(training_url.id), method: :delete, "data-confirm" => "この動画をお気に入りから削除しますか？" do %>
+            <i class="fas fa-minus fa-2x" style="color:orangered;"></i>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>

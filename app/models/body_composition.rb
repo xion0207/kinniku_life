@@ -2,8 +2,10 @@ class BodyComposition < ApplicationRecord
     belongs_to :user
 
     SHOSU = /\A[-]?[0-9]+(\.[0-9]+)?\z/
+    DATE = /\A\d{4}[-]\d{2}[-]\d{2}\z/
     validates :body_weight, presence: true, format: { with: SHOSU }
-    validates :body_fat_percentage, format: { with: SHOSU }
+    validates :body_fat_percentage, presence: true, format: { with: SHOSU }
+    validates :date, format: { with: DATE }
 
   def body_fat_weight
     (body_weight * body_fat_percentage / 100).round(1)
