@@ -1,6 +1,5 @@
 /*global $*/
 $(document).on('turbolinks:load', function() {
-  $(document).ready(function () {
     $("#theTarget").skippr({
       // スライドショーの変化 ("fade" or "slide")
       transition : 'slide',
@@ -23,6 +22,5 @@ $(document).on('turbolinks:load', function() {
       // 一枚目のスライド表示時に戻る矢印を表示するかどうか(falseで非表示)
       hidePrevious : false
     });
-  });
 
 });
