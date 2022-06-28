@@ -49,6 +49,17 @@ class MusclePartsController < ApplicationController
      redirect_to muscle_part_path(@training_event.muscle_part_id)
    end
   end
+  def new_name
+    @muscle_part = MusclePart.new
+  end
+  def create_name
+   @muscle_part = MusclePart.new(muscle_part_params)
+   if @muscle_part.save
+     redirect_to root_path
+   else
+     redirect_to root_path
+   end
+  end
 
   def edit
     @training_record = TrainingRecord.find(params[:id])
@@ -90,6 +101,10 @@ class MusclePartsController < ApplicationController
 
    def training_event_params
     params.require(:training_event).permit(:name, :muscle_part_id, :user_id)
+   end
+
+   def muscle_part_params
+     params.require(:muscle_part).permit(:name)
    end
 
 end

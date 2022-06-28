@@ -23,7 +23,15 @@
     <header class="shadow-sm">
       <nav class="navbar navbar-expand-lg ">
         <div class="container" style="float: left;">
-          <img class="navbar-brand p-1 col-2 col-sm-1" href="/" src="logo.png" style='width:64px; background-image: image-url("logo.png");'>
+          <% if user_signed_in? %>
+          <a class="navbar-brand" style="" href="/">
+          <div class="logo"></div>
+          </a>
+          <% else %>
+          <a class="navbar-brand" style="height: 64px;width:64px;" href="/users/sign_up">
+          <div class="logo"></div>
+          </a>
+          <% end %>
 
 
           <div class="col-6 col-sm-6">
@@ -127,8 +135,8 @@
     <br>
     <% end %>
   <footer class="shadow-sm" style="bottom:0;">
-    <nav class="navbar navbar-expand-lg">
-      <img class="navbar-brand" href="/" src="/assets/logo_ura.png" style="width:32px;" alt="">
+    <nav class="navbar navbar-expand-lg" style="height:32px;">
+
     </nav>
   </footer>
 </body>

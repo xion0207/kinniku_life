@@ -14,7 +14,16 @@
  *= require_self
  */
 //  @import "skippr";
-
+.logo {
+  background-image: image-url("logo.png");
+  height: 64px;
+  width: 64px;
+}
+.logo_ura {
+  background-image: image-url("logo_ura.png");
+  width: 100%;
+  height: 100%;
+}
  .image1 {
   background-image: image-url("image1.jpg");
 }

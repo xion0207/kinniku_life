@@ -25,6 +25,8 @@ Rails.application.routes.draw do
   resources :muscle_parts, only: [:index, :show, :edit, :create, :destroy, :update]
   post 'muscle_parts/create_record' => 'muscle_parts#create_record', as: 'create_record'
   post 'muscle_parts/create_event' => 'muscle_parts#create_event', as: 'create_event'
+  get 'new_name' => "muscle_parts#new_name"
+  post 'muscle_parts/create_name' => 'muscle_parts#create_name', as: 'create_name'
   delete 'muscle_parts/destroy_record/:id' => 'muscle_parts#destroy_record', as: 'destroy_record'
   delete 'muscle_parts/destroy_event/:id' => 'muscle_parts#destroy_event', as: 'destroy_event'
 
