@@ -19,11 +19,7 @@
   height: 64px;
   width: 64px;
 }
-.logo_ura {
-  background-image: image-url("logo_ura.png");
-  width: 100%;
-  height: 100%;
-}
+
  .image1 {
   background-image: image-url("image1.jpg");
 }
@@ -53,8 +49,10 @@
   background-attachment: fixed;
 }
 
-body {
-  background-color: red;
+.shoulder {
+  background-image: image-url("shoulder.png");
+  max-width: autio;
+  height: 300px;
 }
 
 .text-secondary {
@@ -80,6 +78,7 @@ body {
    #container{
   height: 600px;
 }
+
 }
 @media (min-width: 800px) {
    .youtube_url {
@@ -94,7 +93,7 @@ body {
      height: 800px;
    }
    #container{
-  height: 1000px;
+  height: 700px;
 }
 }
 
